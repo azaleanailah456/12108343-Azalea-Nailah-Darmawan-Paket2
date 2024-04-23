@@ -13,7 +13,7 @@
                             <div class="form-outline" data-mdb-input-init>
                                 <input type="search" id="form1" class="form-control" name="q"/>
                                 <label class="form-label" for="form1">Search</label>
-                            </div>
+                            </div>  
                         </form>
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <a href="" class="btn btn-primary" data-bs-toggle="modal"
