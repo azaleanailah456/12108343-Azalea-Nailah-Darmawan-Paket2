@@ -10,10 +10,18 @@
                             Purchase
                         </h2>
                         <hr>
+
+                        <form class="input-group" action="" method="GET">
+                            <div class="form-outline" data-mdb-input-init>
+                                <label class="form-label" for="form1">Search</label>
+                                <input type="search" id="form1" class="form-control" name="q"/>
+                            </div>  
+                        </form> 
+
                         <form action="/export-excel" method="POST">
                             @csrf
                             <input type="text" value="{{json_encode($data)}}" name="data" hidden/>
-                            <button type="submit" class="btn btn-success" style="margin-bottom: 12px">Export</button>
+                            <button type="submit" class="btn btn-success" style="margin-bottom: 12px; margin-top: 10px">Export</button>
                         </form>
                         <table class="table">
                             <thead class="thead-dark">
@@ -58,73 +66,77 @@
                     </div>
 
                     <!-- Modal View-->
-                    @foreach ($data as $key => $value)
-                        <div class="modal fade" id="modalView-{{ $value->id }}" tabindex="-1"
-                            aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Purchase Detail</h5>
-                                        <ht>
-                                            <br>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body" style="margin-top: -20px;">
+ <!-- Modal View-->
+ @foreach ($data as $key => $value)
+ <div class="modal fade" id="modalView-{{ $value->id }}" tabindex="-1"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal-dialog">
+         <div class="modal-content">
+             <div class="modal-header">
+                 <h5 class="modal-title" id="exampleModalLabel">Purchase Detail</h5>
+                 <ht>
+                     <br>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal"
+                         aria-label="Close"></button>
+             </div>
+             <div class="modal-body" style="margin-top: -20px;">
 
-                                        <p>Customer Name : {{ $value->customers->name }}</p>
-                                        <p>Customer Address : {{ $value->customers->address }}</p>
-                                        <p>Customer Phone Number : {{ $value->customers->phone_number }}</p>
+                 <p>Customer Name : {{ $value->customers->name }}</p>
+                 <p>Customer Address : {{ $value->customers->address }}</p>
+                 <p>Customer Phone Number : {{ $value->customers->phone_number }}</p>
 
-                                        <table class="table table-borderless">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">Product Name</th>
-                                                    <th scope="col">QTY</th>
-                                                    <th scope="col">Unit Price</th>
-                                                    <th scope="col">Total Price</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($value->products as $valueProduct)
-                                                    <tr>
-                                                        <td>{{ $valueProduct->name }}</td>
-                                                        <td>{{ $valueProduct->pivot->quantity }}</td>
-                                                        <td>{{ $valueProduct->pivot->unit_price }}</td>
-                                                        <td>{{ $valueProduct->pivot->totalPrice }}</td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                        <div class="d-flex justify-content-between align-items-end">
-                                            <div>
-                                                <!-- Konten lain di sini -->
-                                            </div>
-                                            <div class="px-4 mt-3">
-                                                <p><b>Total :</b> {{ $value->total_purchase }}</p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex flex-column  align-items-center">
-                                            <div class="text-center">
-                                                <p>Created Date: {{ date('d F Y', strtotime($value->created_at)) }}</p>
-                                            </div>
-                                            <br>
-                                            <div class="text-center">
-                                                <p><b>Created By : </b> {{ $value->users->name }}</p>
-                                            </div>
-                                        </div>
+                 <table class="table table-borderless">
+                     <thead>
+                         <tr>
+                             <th scope="col">Product Name</th>
+                             <th scope="col">QTY</th>
+                             <th scope="col">Unit Price</th>
+                             <th scope="col">Total Price</th>
+                         </tr>
+                     </thead>
+                     <tbody>
+                         @foreach ($value->purchaseProduct as $valueProduct)
+                             <tr>
+                                 <td>{{ $valueProduct->product->name }} </td>
+                                 <td>{{ $valueProduct->quantity }}</td>
+                                 <td>{{ $valueProduct->product->unit_price }}</td>
+                                 <td>{{ $valueProduct->totalPrice }}</td>
+                             </tr>
+                         @endforeach
+                     </tbody>
+                 </table>
+                 <div class="d-flex justify-content-between align-items-end">
+                     <div>
+                         <!-- Konten lain di sini -->
+                     </div>
+                     <div class="px-4 mt-3">
+                         <p><b>Total :</b> {{ $value->total_purchase }}</p>
+                     </div>
+                 </div>
+                 <div class="d-flex flex-column  align-items-center">
+                     <div class="text-center">
+                         <p>Created Date: {{ date('d F Y', strtotime($value->created_at)) }}</p>
+                     </div>
+                     <br>
+                     <div class="text-center">
+                         <p><b>Created By : </b> {{ $value->users->name }}</p>
+                     </div>
+                 </div>
 
 
-
-                                        <div class="modal-footer" style="margin-bottom: -30px; margin-top:20px;">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
+                 <div class="modal-footer" style="margin-bottom: -30px; margin-top:20px;">
+                     <a href="{{ route('generate-pdf', ['id' => $value->id]) }}"
+                         class="btn btn-secondary">Download PDF</a>
+                 </div>
+                 <div class="modal-footer" style="margin-bottom: -30px; margin-top:20px;">
+                     <button type="button" class="btn btn-secondary"
+                         data-bs-dismiss="modal">Close</button>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </div>
+@endforeach
                     {{-- end modal view --}}
 
 

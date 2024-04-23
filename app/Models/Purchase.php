@@ -21,4 +21,9 @@ class Purchase extends Model
     public function users(){
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function purchaseProduct()
+    {
+        return $this->hasMany(Purchase_Product::class);
+    }
 }

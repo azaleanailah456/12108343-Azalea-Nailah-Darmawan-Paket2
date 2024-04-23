@@ -6,6 +6,7 @@ use App\Exports\PurchaseExport;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Purchase;
+use App\Models\Purchase_Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
@@ -27,10 +28,10 @@ class PurchaseController extends Controller
         if ($search = $request->q) {
             $data = Purchase::whereHas('customers', function ($query) use ($search) {
                 $query->where('name', 'LIKE', '%' . $search . '%');
-            })->with('customers','users')->get();
+            })->with('customers','users', 'purchaseProduct')->get();
 
         }else{
-            $data = Purchase::latest()->with('customers','users')->get();
+            $data = Purchase::latest()->with('customers','users', 'purchaseProduct')->get();
         }
         return view('purchase.purchase', compact('data', 'product'));
     }
@@ -49,10 +50,10 @@ class PurchaseController extends Controller
         if ($search = $request->q) {
             $data = Purchase::whereHas('customers', function ($query) use ($search) {
                 $query->where('name', 'LIKE', '%' . $search . '%');
-            })->with('customers','users')->get();
+            })->with('customers','users', 'purchaseProduct')->get();
 
         }else{
-            $data = Purchase::latest()->with('customers','users')->get();
+            $data = Purchase::latest()->with('customers','users', 'purchaseProduct')->get();
         }
         return view('Employee.purchase_employee', compact('data', 'product'));
     }
@@ -97,8 +98,7 @@ class PurchaseController extends Controller
             'phone_number' => 'required'
         ]);
 
-
-
+        // dd($request->all());
 
         $customer = new Customer();
 
@@ -112,6 +112,19 @@ class PurchaseController extends Controller
         $purchase->customer_id = $customer->id;
         $purchase->total_purchase = $request->total_purchase;
         $purchase->save();
+        
+
+        foreach ($request->products as $key => $value) {
+            // dd($value);
+            $productPrice = Product::where('id', $value['product_id'])->value('price');
+            Purchase_Product::create([
+                'product_id' => $value['product_id'],
+                'purchase_id' => $purchase->id,
+                'quantity' => $value['quantity'],
+                'unit_price' => $productPrice,
+                'totalPrice' => $value['totalPrice']
+            ]);
+        }
 
         // Simpan detail produk yang dibeli
         foreach ($request->products as $product) {

@@ -1,6 +1,10 @@
 @extends('layouts._main')
 @section('content')
-
+<style>
+    td {
+        font-size: 15px; 
+    }
+</style>
     <div class="container-fluid mt-4">
         <div class="row">
             <div class="col-12">
@@ -9,8 +13,14 @@
                         <h2>
                             Product
                             <hr>
+                            <form class="input-group" action="" method="GET">
+                                <div class="form-outline" data-mdb-input-init>
+                                    <label class="form-label" for="form1">Search</label>
+                                    <input type="search" id="form1" class="form-control" name="q"/>
+                                </div>  
+                            </form>
                         <a href="" class="btn btn-primary mb-4" data-bs-toggle="modal"
-                            data-bs-target="#modalCreate">Create</a>
+                            data-bs-target="#modalCreate" style="margin-bottom: 12px; margin-top: 10px">Create</a>
                         @if ($errors->any())
                             <div class="alert alert-danger">
                                 <ul>
@@ -43,7 +53,7 @@
                                         </td>
                                         <td>{{ $value->name }}</td>
                                         <td>{{ $value->stock }}</td>
-                                        <td>{{ format_rupiah($value->price) }}</td>
+                                        <td>{{ number_format($value->price, 0, ',', '.') }}</td>
                                         <td>
                                             <div class="d-flex justify-content-start">
                                                 <button class="btn btn-success mx-4" data-bs-toggle="modal"
@@ -224,10 +234,11 @@
     </div>
     <?php
 
-    function format_rupiah($angka)
-    {
-        $jadi = 'Rp ' . number_format($angka, 2, ',', '.');
-        return $jadi;
-    }
+    // function format_rupiah($angka)
+    // {
+    //     $jadi = 'Rp ' . number_format($angka, 2, ',', '.');
+    //     return $jadi;
+    // }
     ?>
 @endsection
+

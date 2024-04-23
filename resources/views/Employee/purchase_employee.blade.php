@@ -11,13 +11,13 @@
                         </h2>
                         <form class="input-group" action="" method="GET">
                             <div class="form-outline" data-mdb-input-init>
-                                <input type="search" id="form1" class="form-control" name="q"/>
                                 <label class="form-label" for="form1">Search</label>
+                                <input type="search" id="form1" class="form-control" name="q"/>
                             </div>  
                         </form>
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <a href="" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#modalCreate">Create</a>
+                                data-bs-target="#modalCreate" style="margin-top: 10px">Create</a>
                         <form action="/export-excel" method="POST">
                             @csrf
                             <input type="text" value="{{json_encode($data)}}" name="data" hidden/>
@@ -95,12 +95,12 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($value->products as $valueProduct)
+                                                @foreach ($value->purchaseProduct as $valueProduct)
                                                     <tr>
-                                                        <td>{{ $valueProduct->name }}</td>
-                                                        <td>{{ $valueProduct->pivot->quantity }}</td>
-                                                        <td>{{ $valueProduct->pivot->unit_price }}</td>
-                                                        <td>{{ $valueProduct->pivot->totalPrice }}</td>
+                                                        <td>{{ $valueProduct->product->name }} </td>
+                                                        <td>{{ $valueProduct->quantity }}</td>
+                                                        <td>{{ $valueProduct->product->price }}</td>
+                                                        <td>{{ $valueProduct->totalPrice }}</td>
                                                     </tr>
                                                 @endforeach
                                             </tbody>

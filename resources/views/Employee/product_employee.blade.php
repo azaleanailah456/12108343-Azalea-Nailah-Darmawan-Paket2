@@ -10,6 +10,12 @@
                             Product
                         </h2>
                         <br>
+                        <form class="input-group" action="" method="GET">
+                            <div class="form-outline" data-mdb-input-init>
+                                <label class="form-label" for="form1">Search</label>
+                                <input type="text" id="search" class="form-control" name="q"/>
+                            </div>  
+                        </form>
                         <table class="table">
                             <thead class="thead-dark">
                                 <tr>
@@ -31,7 +37,7 @@
                                             @endif
                                          </td>
                                         <td>{{ $value->name }}</td>
-                                        <td>{{ format_rupiah($value->price) }}</td>
+                                        <td>Rp. {{ number_format($value->price, 2, ',', '.') }}</td>
                                         <td>{{ $value->stock }}</td>
                                     </tr>
                                 @endforeach
@@ -44,10 +50,10 @@
     </div>
     <?php 
 
-    function format_rupiah($angka)
-    {
-        $jadi = "Rp " . number_format($angka, 2, ',', '.');
-        return $jadi;
-    }
+    // function format_rupiah($angka)
+    // {
+    //     $jadi = "Rp " . number_format($angka, 2, ',', '.');
+    //     return $jadi;
+    // }
     ?>
 @endsection

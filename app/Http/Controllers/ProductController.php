@@ -19,21 +19,23 @@ class ProductController extends Controller
 
     public function search(Request $request)
     {
+        $search = $request->input('search');
 
-
+        $product = Product::query()->where('name', 'LIKE', "%{$search}%")->get();
+        return view('product.product', compact('product'));
     }
 
     public function index(Request $request)
     {
         $data=[];
 
-        if ($search = $request->q) {
+        if ($search = $request->search) {
                 $data = Product::where(function ($query) use ($search) {
                     $query->where('name', 'LIKE', "%$search%")
-                        ->orWhere('stock', 'LIKE', "%$search%");
+                          ->orWhere('stock', 'LIKE', "%$search%");
                 })->get();
 
-        }else{
+        }else {
             $data = Product::latest()->get();
         }
         return view('product.product', compact('data'));
@@ -66,7 +68,7 @@ class ProductController extends Controller
         $imgName = $request->name . '-' . now()->timestamp . '.' . $photo->getClientOriginalExtension();
 
 
-        if (!Storage::exists('cover')) {
+        if (!Storage::exists('cover')) { 
             Storage::makeDirectory('cover');
         }
 
@@ -135,6 +137,7 @@ class ProductController extends Controller
         $data = Product::where('id', $id)->first();
         return view('product.stock', compact('data'));
     }
+    
     public function updateStock(Request $request, Product $product, $id)
     {
         $request->validate([
