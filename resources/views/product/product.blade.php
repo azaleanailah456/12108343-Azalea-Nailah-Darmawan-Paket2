@@ -16,7 +16,7 @@
                             <form class="input-group" action="" method="GET">
                                 <div class="form-outline" data-mdb-input-init>
                                     <label class="form-label" for="form1">Search</label>
-                                    <input type="search" id="form1" class="form-control" name="q"/>
+                                    <input type="text" id="search" class="form-control" name="search"/>
                                 </div>  
                             </form>
                         <a href="" class="btn btn-primary mb-4" data-bs-toggle="modal"

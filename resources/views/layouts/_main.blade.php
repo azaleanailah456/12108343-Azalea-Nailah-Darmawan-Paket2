@@ -136,17 +136,18 @@
               </a>
             </li>
             <li class="menu-item ">
-              <a href="{{ route('pagePurchase') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-cart"></i>
-                <div data-i18n="Analytics">Purchase</div>
-              </a>
-            </li>
-            <li class="menu-item ">
               <a href="{{ route('pageProduct') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-cube-alt"></i>
                 <div data-i18n="Analytics">Product</div>
               </a>
             </li>
+            <li class="menu-item ">
+              <a href="{{ route('pagePurchase') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-cart"></i>
+                <div data-i18n="Analytics">Purchase</div>
+              </a>
+            </li>
+
 
 
 

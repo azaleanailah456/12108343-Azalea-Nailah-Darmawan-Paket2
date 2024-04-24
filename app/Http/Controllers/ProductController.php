@@ -11,9 +11,15 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function pageProductEmployee()
+    public function pageProductEmployee(Request $request)
     {
-        $data = Product::latest()->get();
+        $data = [];
+
+        if ($search = $request->input('search')) {
+            $data = Product::where('name', 'LIKE', "%{$search}%")->get();
+        } else {
+            $data = Product::latest()->get();
+        }
         return view('Employee.product_employee', compact('data'));
     }
 
@@ -27,20 +33,18 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
-        $data=[];
+        $product = Product::all();
+        $data = [];
 
-        if ($search = $request->search) {
-                $data = Product::where(function ($query) use ($search) {
-                    $query->where('name', 'LIKE', "%$search%")
-                          ->orWhere('stock', 'LIKE', "%$search%");
-                })->get();
-
-        }else {
+        if ($search = $request->input('search')) {
+            $data = Product::where('name', 'LIKE', "%{$search}%")->get();
+        } else {
             $data = Product::latest()->get();
         }
-        return view('product.product', compact('data'));
 
+        return view('product.product', compact('data', 'product'));
     }
+
 
     /**
      * Show the form for creating a new resource.

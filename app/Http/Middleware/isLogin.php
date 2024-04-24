@@ -25,8 +25,11 @@ class isLogin
         //    jika user memiliki level sesuai pada kolom pada lanjutkan request
            if($user->role == $roles){
              return $next($request);
+           } else {
+            return redirect()->back()->with('error', 'tidak ada akses');
            }
 
-        return redirect()->route('login')->with('isLogin', 'please login');
+        return $next($request);
+        // return redirect()->route('login')->with('isLogin', 'please login');
     }
 }

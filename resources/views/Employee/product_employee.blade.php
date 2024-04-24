@@ -13,13 +13,13 @@
                         <form class="input-group" action="" method="GET">
                             <div class="form-outline" data-mdb-input-init>
                                 <label class="form-label" for="form1">Search</label>
-                                <input type="text" id="search" class="form-control" name="q"/>
+                                <input type="text" id="search" class="form-control" name="search"/>
                             </div>  
                         </form>
                         <table class="table">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th scope="col">No</th>
+                                    <th scoxpe="col">No</th>
                                     <th scope="col">Photo</th>
                                     <th scope="col">Name Product</th>
                                     <th scope="col">Price</th>
